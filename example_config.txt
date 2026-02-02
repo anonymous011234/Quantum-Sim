@@ -9,4 +9,3 @@ circuit_folders = circuits/gen
 placers = RANDOM, BFS, TRHQA, HQA, GTRHQA
 repeats = 3
 out_csv = results.csv
-plot_file = results_plot.png
