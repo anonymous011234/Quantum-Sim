@@ -2,15 +2,11 @@ import os
 import csv
 import time
 import numpy as np
-import matplotlib.pyplot as plt
 from multicore import multicore
-from BFS_placer import bfs_placer
-from Random_placer import random_placer
 from Qubo_placer import qubo_placer
 from TRHQA_placer import trhqa_placer
 from Graph_placer import graph_placer 
 from GTRHQA_placer import gtrhqa_placer
-from CongestionHqa_placer import chqa_placer
 from HQA_placer import hqa_placer
 
 def run_simulation(cfg=None):
@@ -22,7 +18,6 @@ def run_simulation(cfg=None):
     circuit_folders = cfg.get('circuit_folders')
     repeats = int(cfg.get('repeats'))
     out_csv = cfg.get('out_csv')
-    plot_file = cfg.get('plot_file')
     multicore_conf = {
         'num_cores_x': int(cfg.get('num_cores_x', 8)),
         'num_cores_y': int(cfg.get('num_cores_y', 8)),
@@ -42,10 +37,6 @@ def run_simulation(cfg=None):
         placers_instances['HQA'] = hqa_placer()
     if 'GTRHQA' in placers_to_run:
         placers_instances['GTRHQA'] = gtrhqa_placer()
-    if 'RANDOM' in placers_to_run:
-        placers_instances['RANDOM'] = random_placer()
-    if 'BFS' in placers_to_run:
-        placers_instances['BFS'] = bfs_placer()
 
     try:
         multicore_arch = multicore(
@@ -129,37 +120,6 @@ def run_simulation(cfg=None):
             writer.writerow(r)
     print(f"\nWrote all results to {out_csv}")
 
-    files = [r['file'] for r in results]
-    order = np.argsort(files)
-    files = [files[i] for i in order]
-    x = np.arange(len(files))
-    plt.figure(figsize=(14,6))
-    plt.subplot(1,2,1)
-    plt.title('Average Runtime in s')
-    width = 0.12
-    offsets = [-1.5, -0.5, 0.5, 1.5, 2.5]
-
-    for placer in placers_to_run:
-        placer_sorted = [results[i][f'{placer}_time_mean'] for i in order]
-        plt.bar(x + offsets[placers_to_run.index(placer)] * width, placer_sorted, width=width, label=placer)
-    plt.xticks(x, files, rotation=45, ha='right')
-    plt.xlabel("#gates")
-    plt.ylabel("#time")
-    plt.legend()
-
-    plt.subplot(1,2,2)
-    plt.title('Average Cost')
-    for placer in placers_to_run:
-        placer_sorted = [results[i][f'{placer}_cost_mean'] for i in order]
-        plt.bar(x + offsets[placers_to_run.index(placer)] * width, placer_sorted, width=width, label=placer)
-    plt.xticks(x, files, rotation=45, ha='right')
-    plt.xlabel("#gates")
-    plt.ylabel("#expected intercore communication")
-    plt.legend()
-
-    plt.tight_layout()
-    plt.savefig(plot_file, dpi=300, bbox_inches='tight')
-    print(f"Saved comparison plot to {plot_file}")
     print("\nDone. Results summary:")
     for r in results:
         print(r)
