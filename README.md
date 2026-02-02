@@ -33,14 +33,12 @@ Configuration is read from a simple key=value text file by `config_parser.py`. S
 
 **Placer Algorithms**
 
-Available placers (files in the repo): `TRHQA`, `GTRHQA`, `HQA`, `QUBO`, `RANDOM`, `BFS`.
+Available placers (files in the repo): `TRHQA`, `GTRHQA`, `HQA`, `QUBO`.
 
 - TRHQA_placer.py
 - GTRHQA_placer.py
 - HQA_placer.py
 - Qubo_placer.py
-- Random_placer.py
-- BFS_placer.py
 
 Each placer implements placement and cost interfaces used by `main.py` (e.g., `place_per_timeslice`, `per_timeslice_cost`).
 
