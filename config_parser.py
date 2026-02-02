@@ -49,7 +49,6 @@ def parse_config_file(path: str) -> Dict:
     assert 'repeats' in config, "Missing required parameter: repeats"
     
     assert 'out_csv' in config, "Missing required parameter: out_csv"
-    assert 'plot_file' in config, "Missing required parameter: plot_file"
     ewr = config.get('edge_weight_range')
     if isinstance(ewr, list) and len(ewr) >= 2:
         config['edge_weight_range'] = (float(ewr[0]), float(ewr[1]))
