@@ -28,7 +28,6 @@ Configuration is read from a simple key=value text file by `config_parser.py`. S
 - `placers`: comma-separated list of placers to run (see below)
 - `repeats`: integer, number of runs per placer (averaging)
 - `out_csv`: output path for CSV results
-- `plot_file`: output path for the comparison PNG
 
 `config_parser.py` validates and normalizes these values before `main.py` runs.
 
@@ -52,6 +51,5 @@ Place `.qasm` circuit files under the `circuits/` tree. Point `circuit_folders` 
 **Outputs**
 
 - A CSV with averaged runtime and cost values (path = `out_csv`).
-- A comparison PNG plot (path = `plot_file`).
 
 
